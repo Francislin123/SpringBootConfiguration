@@ -1,0 +1,6 @@
+br/com/walmart/service/PartnersService.class
+br/com/walmart/controllers/HomeController.class
+br/com/walmart/Boot.class
+br/com/walmart/entity/Partners.class
+br/com/walmart/repository/PartnersRepository.class
+br/com/walmart/service/PartnersImpl.class
