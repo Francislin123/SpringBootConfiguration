@@ -8,6 +8,6 @@ import br.com.walmart.entity.Partners;
 @Repository
 public interface PartnersRepository extends JpaRepository<Partners, Long> {
 
-	Partners findByPartnersName(String name);
+	Partners findByPartnersName(String partnersName);
 
 }

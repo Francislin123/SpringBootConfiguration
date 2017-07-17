@@ -11,13 +11,25 @@ import br.com.walmart.repository.PartnersRepository;;
 
 @Service("partnersService")
 @Transactional
-public class PartnersImpl implements PartnersService{
-	
+public class PartnersImpl implements PartnersService {
+
 	@Autowired
-	private PartnersRepository partnersRepository; 
+	private PartnersRepository partnersRepository;
 
 	public List<Partners> findAllPartners() {
 		return partnersRepository.findAll();
+	}
+
+	public Partners findByPartnersName(String partnersName) {
+		return partnersRepository.findByPartnersName(partnersName);
+	}
+
+	public void savePartners(Partners partners) {
+		partnersRepository.save(partners);
+	}
+
+	public boolean isPartnersExist(Partners partners) {
+		return findByPartnersName(partners.getPartnersName()) != null;
 	}
 
 }

@@ -28,6 +28,14 @@ public class Partners implements Serializable {
 	@Column(name = "AGE", nullable = false)
 	private String productName;
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getPartnersName() {
 		return partnersName;
 	}

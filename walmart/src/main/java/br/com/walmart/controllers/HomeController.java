@@ -23,12 +23,6 @@ public class HomeController {
 	@Autowired
 	PartnersService partnersService;
 
-	@RequestMapping(value = "/{name}", method = RequestMethod.GET)
-	public String index(String name) {
-		logger.info("Index url ok");
-		return name;
-	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/partners/", method = RequestMethod.GET)
 	public ResponseEntity<List<Partners>> listAllPartners() {
