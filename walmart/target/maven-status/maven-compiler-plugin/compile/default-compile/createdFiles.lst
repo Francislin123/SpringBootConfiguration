@@ -4,3 +4,4 @@ br/com/walmart/Boot.class
 br/com/walmart/entity/Partners.class
 br/com/walmart/repository/PartnersRepository.class
 br/com/walmart/service/PartnersImpl.class
+br/com/walmart/util/CustomErrorType.class

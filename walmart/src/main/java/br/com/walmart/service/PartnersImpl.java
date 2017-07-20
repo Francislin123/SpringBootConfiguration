@@ -24,12 +24,20 @@ public class PartnersImpl implements PartnersService {
 		return partnersRepository.findByPartnersName(partnersName);
 	}
 
+	public boolean isPartnersExist(Partners partners) {
+		return findByPartnersName(partners.getPartnersName()) != null;
+	}
+
+	public Partners findById(Long id) {
+		return partnersRepository.findOne(id);
+	}
+	
 	public void savePartners(Partners partners) {
 		partnersRepository.save(partners);
 	}
 
-	public boolean isPartnersExist(Partners partners) {
-		return findByPartnersName(partners.getPartnersName()) != null;
+	public void updatePartners(Partners partners) {
+		savePartners(partners);
 	}
 
 }

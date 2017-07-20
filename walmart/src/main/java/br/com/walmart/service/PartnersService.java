@@ -11,7 +11,11 @@ public interface PartnersService {
 	void savePartners(Partners user);
 
 	Partners findByPartnersName(String partnersName);
+	
+	Partners findById(Long id);
 
 	boolean isPartnersExist(Partners partners);
+	
+	void updatePartners(Partners partners);
 
 }
