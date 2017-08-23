@@ -1,58 +1,75 @@
 package br.com.walmart.entity;
 
+import lombok.Getter;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "PARTNERES")
+@Getter
 public class Partners implements Serializable {
 
-	private static final long serialVersionUID = 7237699050276973379L;
+    private static final long serialVersionUID = 7237699050276973379L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	@NotEmpty
-	@Column(name = "NAME", nullable = false)
-	private String partnersName;
+    @Pattern(regexp = "^[^[0-9]\\p{Punct}|\\s].*")
+    @NotBlank(message = "Required field")
+    @NotNull(message = "Required field")
+    @Column(name = "NAME", unique = true)
+    private String partnersName;
 
-	@Column(name = "AGE", nullable = false)
-	private String productName;
+    @Pattern(regexp = "^[^[0-9]\\p{Punct}|\\s].*")
+    @NotBlank(message = "Required field")
+    @NotNull(message = "Required field")
+    @Column(name = "AGE", unique = true)
+    private String productName;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getPartnersName() {
-		return partnersName;
-	}
+    public String getPartnersName() {return partnersName.trim();}
 
-	public void setPartnersName(String partnersName) {
-		this.partnersName = partnersName;
-	}
+    public void setPartnersName(String partnersName) {
+        this.partnersName = partnersName;
+    }
 
-	public String getProductName() {
-		return productName;
-	}
+    public String getProductName() {
+        return productName;
+    }
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-	public String toString() {
-		return "Partners [id=" + id + ", Partners name: " + partnersName + ", Product Name: " + productName + "]";
-	}
+    public String toString() {
+        return "Partners [id=" + id + ", Partners name: " + partnersName + ", Product Name: " + productName + "]";}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Partners partners = (Partners) o;
+
+        if (id != partners.id) return false;
+        if (!partnersName.equals(partners.partnersName)) return false;
+        return productName.equals(partners.productName);
+    }
+
+    @Override
+    public int hashCode() {int result = (int) (id ^ (id >>> 32));result = 31 * result + partnersName.hashCode();
+        result = 31 * result + productName.hashCode();
+        return result;}
 }

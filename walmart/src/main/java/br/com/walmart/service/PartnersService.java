@@ -1,21 +1,26 @@
 package br.com.walmart.service;
 
-import java.util.List;
-
 import br.com.walmart.entity.Partners;
 
-public interface PartnersService {
+import java.util.List;
 
-	List<Partners> findAllPartners();
-	
-	void savePartners(Partners user);
+public interface PartnersService
+{
+    List<Partners> findAllPartners();
 
-	Partners findByPartnersName(String partnersName);
-	
-	Partners findById(Long id);
+    void savePartners(Partners user);
 
-	boolean isPartnersExist(Partners partners);
-	
-	void updatePartners(Partners partners);
+    Partners findByPartnersName(String partnersName);
 
+    Partners findByProductName(String productName);
+
+    Partners findById(long id);
+
+    boolean isPartnersExist(Partners partners);
+
+    boolean isPartnersExistProduct(Partners partners);
+
+    void updatePartners(Partners partners);
+
+    void delete(Partners partners);
 }
