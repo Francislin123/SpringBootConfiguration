@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
@@ -21,6 +20,8 @@ import java.util.List;
 public class HomeController {
 
     public static final String V1_PARTNERS = "/v1/partners";
+    public static final String V1_PARTNERS_DELETE = "/v1/partners/delete/";
+
     public static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
@@ -100,9 +101,13 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> deletePartnesById(Partners partners) throws EntityNotFoundException {
+    public ResponseEntity<String> deletePartnesById(Partners partners) throws Exception {
         logger.info("Delete Partners with id {}", partners);
-        partnersService.delete(partners);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            partnersService.delete(partners);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(new CustomErrorType("Partner with id " + partners + " not found"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

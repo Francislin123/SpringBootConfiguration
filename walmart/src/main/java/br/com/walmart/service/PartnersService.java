@@ -4,8 +4,7 @@ import br.com.walmart.entity.Partners;
 
 import java.util.List;
 
-public interface PartnersService
-{
+public interface PartnersService {
     List<Partners> findAllPartners();
 
     void savePartners(Partners user);
@@ -22,5 +21,5 @@ public interface PartnersService
 
     void updatePartners(Partners partners);
 
-    void delete(Partners partners);
+    void delete(Partners partners) throws Exception;
 }
