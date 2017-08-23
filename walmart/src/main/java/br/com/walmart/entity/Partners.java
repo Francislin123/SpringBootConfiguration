@@ -19,13 +19,13 @@ public class Partners implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Pattern(regexp = "^[^[0-9]\\p{Punct}|\\s].*")
+    @Pattern(regexp = "^([^[0-9]\\p{Punct}|\\s])(.*)")
     @NotBlank(message = "Required field")
     @NotNull(message = "Required field")
     @Column(name = "NAME", unique = true)
     private String partnersName;
 
-    @Pattern(regexp = "^[^[0-9]\\p{Punct}|\\s].*")
+    @Pattern(regexp = "^([^[0-9]\\p{Punct}|\\s])(.*)")
     @NotBlank(message = "Required field")
     @NotNull(message = "Required field")
     @Column(name = "AGE", unique = true)
