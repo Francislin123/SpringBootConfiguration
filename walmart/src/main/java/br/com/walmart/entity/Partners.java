@@ -39,7 +39,7 @@ public class Partners implements Serializable {
         this.id = id;
     }
 
-    public String getPartnersName() {return partnersName.trim();}
+    public String getPartnersName() {return partnersName;}
 
     public void setPartnersName(String partnersName) {
         this.partnersName = partnersName;
