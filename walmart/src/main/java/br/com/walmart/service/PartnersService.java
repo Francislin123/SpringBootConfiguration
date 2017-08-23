@@ -21,5 +21,5 @@ public interface PartnersService {
 
     void updatePartners(Partners partners);
 
-    void delete(Partners partners) throws Exception;
+    void delete(long id);
 }

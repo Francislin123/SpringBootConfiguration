@@ -101,13 +101,13 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> deletePartnesById(Partners partners) throws Exception {
-        logger.info("Delete Partners with id {}", partners);
+    public ResponseEntity<String> deletePartnesById(@PathVariable("id") long id) throws Exception {
+        logger.info("Delete Partners with id {}", id);
         try {
-            partnersService.delete(partners);
+            partnersService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(new CustomErrorType("Partner with id " + partners + " not found"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new CustomErrorType("Partner with id " + id + " not found"), HttpStatus.NOT_FOUND);
         }
     }
 }
