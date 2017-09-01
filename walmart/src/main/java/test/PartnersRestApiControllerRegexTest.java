@@ -11,7 +11,7 @@ import org.junit.Test;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexPOSISTest {
+public class PartnersRestApiControllerRegexTest {
 
     private static Pattern pattern;
 

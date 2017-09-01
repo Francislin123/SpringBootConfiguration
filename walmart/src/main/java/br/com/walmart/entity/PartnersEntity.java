@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "PARTNERES")
 @Getter
-public class Partners implements Serializable {
+public class PartnersEntity implements Serializable {
 
     private static final long serialVersionUID = 7237699050276973379L;
 
@@ -54,14 +54,14 @@ public class Partners implements Serializable {
     }
 
     public String toString() {
-        return "Partners [id=" + id + ", Partners name: " + partnersName + ", Product Name: " + productName + "]";}
+        return "PartnersEntity [id=" + id + ", PartnersEntity name: " + partnersName + ", Product Name: " + productName + "]";}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Partners partners = (Partners) o;
+        PartnersEntity partners = (PartnersEntity) o;
 
         if (id != partners.id) return false;
         if (!partnersName.equals(partners.partnersName)) return false;

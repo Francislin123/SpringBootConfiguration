@@ -2,8 +2,8 @@ package test;
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
-import br.com.walmart.controllers.HomeController;
-import br.com.walmart.entity.Partners;
+import br.com.walmart.controllers.PartnersRestApiController;
+import br.com.walmart.entity.PartnersEntity;
 import br.com.walmart.service.PartnersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -30,12 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by vn0gshm on 11/08/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class HomeControllerTest {
+public class PartnersRestApiControllerTest {
 
-    public static final String V1_PARTNERS = "/v1/partners/create/";
-    public static final String V1_PARTNERS_LIST = "/v1/partners/list/";
-    public static final String V1_PARTNERS_UPDATE = "/v1/partners/find/";
-    public static final String V1_PARTNERS_DELETE = "/v1/partners/delete/";
+    public static final String V1_PARTNERS = "/v1/partnersEntity/create/";
+    public static final String V1_PARTNERS_LIST = "/v1/partnersEntity/list/";
+    public static final String V1_PARTNERS_UPDATE = "/v1/partnersEntity/find/";
+    public static final String V1_PARTNERS_DELETE = "/v1/partnersEntity/delete/";
 
     public static final String PARTNERS_CREATE_REQUEST = "create_partners_request";
     public static final String PARTNERS_UPDATE_REQUEST = "partner_update_request";
@@ -44,13 +44,13 @@ public class HomeControllerTest {
 
     private ObjectMapper mapper;
 
-    private Partners partners;
+    private PartnersEntity partnersEntity;
 
     @Mock
     private PartnersService partnersService;
 
     @InjectMocks
-    private HomeController homeController;
+    private PartnersRestApiController partnersRestApiController;
 
     @BeforeClass
     public static void setUp() {
@@ -59,9 +59,9 @@ public class HomeControllerTest {
 
     @Before
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(partnersRestApiController).build();
         mapper = new ObjectMapper();
-        partners = new Partners();
+        partnersEntity = new PartnersEntity();
     }
 
     //--------------------------------- Create partner test ----------------------------------------------------------//
@@ -71,24 +71,24 @@ public class HomeControllerTest {
     public void testCreatePartnersSuccess() {
         mockMvc.perform(post(V1_PARTNERS)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jsonRequest(Fixture.from(Partners.class).gimme(PARTNERS_CREATE_REQUEST))))
+                .content(jsonRequest(Fixture.from(PartnersEntity.class).gimme(PARTNERS_CREATE_REQUEST))))
                 .andExpect(status().isCreated());
-        verify(partnersService).savePartners(any(Partners.class));
+        verify(partnersService).savePartners(any(PartnersEntity.class));
     }
 
     @Test
     @SneakyThrows
     public void testCreatePartnersConflict() {
-        partners.setId(1);
-        partners.setPartnersName("Google");
-        partners.setProductName("google");
-        when(partnersService.isPartnersExist(partners)).thenReturn(Boolean.TRUE);
+        partnersEntity.setId(1);
+        partnersEntity.setPartnersName("Google");
+        partnersEntity.setProductName("google");
+        when(partnersService.isPartnersExist(partnersEntity)).thenReturn(Boolean.TRUE);
         mockMvc.perform(post(V1_PARTNERS)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jsonRequest(partners)))
+                .content(jsonRequest(partnersEntity)))
                 .andExpect(MockMvcResultMatchers.status().isConflict());
-        verify(partnersService, times(1)).isPartnersExist(partners);
-        verify(partnersService, times(0)).savePartners(any(Partners.class));
+        verify(partnersService, times(1)).isPartnersExist(partnersEntity);
+        verify(partnersService, times(0)).savePartners(any(PartnersEntity.class));
     }
 
     //--------------------------------- Find partner by id test ------------------------------------------------------//
@@ -96,26 +96,26 @@ public class HomeControllerTest {
     @Test
     @SneakyThrows
     public void testFindByPartnersIdSuccess() {
-        partners.setId(1);
-        when(partnersService.findById(partners.getId())).thenReturn(partners);
-        mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_UPDATE + partners.getId())
+        partnersEntity.setId(1);
+        when(partnersService.findById(partnersEntity.getId())).thenReturn(partnersEntity);
+        mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_UPDATE + partnersEntity.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jsonRequest(partners.getId()))
-                .content(jsonRequest(Fixture.from(Partners.class).gimme(PARTNERS_CREATE_REQUEST))))
+                .content(jsonRequest(partnersEntity.getId()))
+                .content(jsonRequest(Fixture.from(PartnersEntity.class).gimme(PARTNERS_CREATE_REQUEST))))
                 .andExpect(status().isOk());
-        verify(partnersService, times(1)).findById(partners.getId());
+        verify(partnersService, times(1)).findById(partnersEntity.getId());
         verifyNoMoreInteractions(partnersService);
     }
 
     @Test
     @SneakyThrows
     public void testFindByPartnersIdNotFound() {
-        partners.setId(1);
-        when(partnersService.findById(partners.getId())).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_UPDATE + partners.getId())
+        partnersEntity.setId(1);
+        when(partnersService.findById(partnersEntity.getId())).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_UPDATE + partnersEntity.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isNotFound());
-        verify(partnersService, times(1)).findById(partners.getId());
+        verify(partnersService, times(1)).findById(partnersEntity.getId());
         verifyNoMoreInteractions(partnersService);
     }
 
@@ -123,7 +123,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testListPartners() {
+    public void testListPartnersOk() {
         mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_LIST)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk());
@@ -135,15 +135,15 @@ public class HomeControllerTest {
     @Test
     @SneakyThrows
     public void testUpdatePartnersByIdSuccess() {
-        partners.setId(1);
-        when(partnersService.findById(partners.getId())).thenReturn(partners);
-        doNothing().when(partnersService).updatePartners(partners);
-        mockMvc.perform(put(V1_PARTNERS_UPDATE + partners.getId())
+        partnersEntity.setId(1);
+        when(partnersService.findById(partnersEntity.getId())).thenReturn(partnersEntity);
+        doNothing().when(partnersService).updatePartners(partnersEntity);
+        mockMvc.perform(put(V1_PARTNERS_UPDATE + partnersEntity.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jsonRequest(Fixture.from(Partners.class).gimme(PARTNERS_UPDATE_REQUEST))))
+                .content(jsonRequest(Fixture.from(PartnersEntity.class).gimme(PARTNERS_UPDATE_REQUEST))))
                 .andExpect(status().isOk());
-        verify(partnersService, times(1)).findById(partners.getId());
-        verify(partnersService, times(1)).updatePartners(partners);
+        verify(partnersService, times(1)).findById(partnersEntity.getId());
+        verify(partnersService, times(1)).updatePartners(partnersEntity);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class HomeControllerTest {
     public void testUpdatePartnersNotFound() {
         mockMvc.perform(put(V1_PARTNERS_UPDATE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jsonRequest(Fixture.from(Partners.class).gimme(PARTNERS_UPDATE_REQUEST))))
+                .content(jsonRequest(Fixture.from(PartnersEntity.class).gimme(PARTNERS_UPDATE_REQUEST))))
                 .andExpect(status().isNotFound());
         verifyNoMoreInteractions(partnersService);
     }
@@ -161,22 +161,22 @@ public class HomeControllerTest {
     @Test
     @SneakyThrows
     public void testDeletePartnersOk() {
-        partners.setId(1);
-        partners.setPartnersName("Facebook");
-        partners.setProductName("facebook");
-        when(partnersService.findById(partners.getId())).thenReturn(partners);
-        mockMvc.perform(delete(V1_PARTNERS_DELETE + partners.getId())
+        partnersEntity.setId(1);
+        partnersEntity.setPartnersName("Facebook");
+        partnersEntity.setProductName("facebook");
+        when(partnersService.findById(partnersEntity.getId())).thenReturn(partnersEntity);
+        mockMvc.perform(delete(V1_PARTNERS_DELETE + partnersEntity.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk());
-        verify(partnersService, times(0)).findById(partners.getId());
+        verify(partnersService, times(0)).findById(partnersEntity.getId());
     }
 
     @Test
     @SneakyThrows
     public void testDeletePartnersNonExistent() {
-        doThrow(NullPointerException.class).when(partnersService).delete(partners.getId());
+        doThrow(NullPointerException.class).when(partnersService).delete(partnersEntity.getId());
         mockMvc.perform(MockMvcRequestBuilders
-                .delete(HomeController.V1_PARTNERS_DELETE + partners.getId())
+                .delete(PartnersRestApiController.V1_PARTNERS_DELETE + partnersEntity.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
