@@ -5,6 +5,7 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import br.com.walmart.controllers.PartnersRestApiController;
 import br.com.walmart.entity.PartnersEntity;
 import br.com.walmart.service.PartnersService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -32,10 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class PartnersRestApiControllerTest {
 
-    public static final String V1_PARTNERS = "/v1/partnersEntity/create/";
-    public static final String V1_PARTNERS_LIST = "/v1/partnersEntity/list/";
-    public static final String V1_PARTNERS_UPDATE = "/v1/partnersEntity/find/";
-    public static final String V1_PARTNERS_DELETE = "/v1/partnersEntity/delete/";
+    public static final String V1_PARTNERS = "/v1/partners/create/";
+    public static final String V1_PARTNERS_LIST = "/v1/partners/list/";
+    public static final String V1_PARTNERS_UPDATE = "/v1/partners/find/";
+    public static final String V1_PARTNERS_DELETE = "/v1/partners/delete/";
 
     public static final String PARTNERS_CREATE_REQUEST = "create_partners_request";
     public static final String PARTNERS_UPDATE_REQUEST = "partner_update_request";
@@ -183,8 +184,7 @@ public class PartnersRestApiControllerTest {
 
     //--------------------------------- Object Json  -----------------------------------------------------------------//
 
-    @SneakyThrows
-    public String jsonRequest(Object request) {
+    public String jsonRequest(Object request) throws JsonProcessingException {
         return mapper.writeValueAsString(request);
     }
 }

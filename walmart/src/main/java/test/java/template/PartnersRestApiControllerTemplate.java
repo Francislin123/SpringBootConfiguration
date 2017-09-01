@@ -18,7 +18,7 @@ public class PartnersRestApiControllerTemplate implements TemplateLoader {
     public void load() {
 
         Fixture.of(PartnersEntity.class).addTemplate(PARTNERS_CREATE_REQUEST, new Rule() {{
-            //add("id", "1");
+            add("id", "1");
             add("partnersName", "Facebook");
             add("productName", "Product facebook test");
         }});
@@ -35,8 +35,8 @@ public class PartnersRestApiControllerTemplate implements TemplateLoader {
         }});
 
         Fixture.of(PartnersEntity.class).addTemplate(PARTNERS_UPDATE_REQUEST, new Rule() {{
-            add("partnersName", "Buscape");
-            add("productName", "Texto descritivo");
+            add("partnersName", "Facebook");
+            add("productName", "Text description");
         }});
     }
 }
