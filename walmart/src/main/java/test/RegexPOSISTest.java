@@ -1,4 +1,4 @@
-package test.java.template;
+package test;
 
 /**
  * Created by vn0gshm on 22/08/17.

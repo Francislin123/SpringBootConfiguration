@@ -5,7 +5,6 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import br.com.walmart.controllers.HomeController;
 import br.com.walmart.entity.Partners;
 import br.com.walmart.service.PartnersService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -69,7 +68,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testCreatePartnersSuccess(){
+    public void testCreatePartnersSuccess() {
         mockMvc.perform(post(V1_PARTNERS)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(jsonRequest(Fixture.from(Partners.class).gimme(PARTNERS_CREATE_REQUEST))))
@@ -79,7 +78,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testCreatePartnersConflict(){
+    public void testCreatePartnersConflict() {
         partners.setId(1);
         partners.setPartnersName("Google");
         partners.setProductName("google");
@@ -96,7 +95,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testFindByPartnersIdSuccess(){
+    public void testFindByPartnersIdSuccess() {
         partners.setId(1);
         when(partnersService.findById(partners.getId())).thenReturn(partners);
         mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_UPDATE + partners.getId())
@@ -110,7 +109,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testFindByPartnersIdNotFound(){
+    public void testFindByPartnersIdNotFound() {
         partners.setId(1);
         when(partnersService.findById(partners.getId())).thenReturn(null);
         mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_UPDATE + partners.getId())
@@ -124,7 +123,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testListPartners(){
+    public void testListPartners() {
         mockMvc.perform(MockMvcRequestBuilders.get(V1_PARTNERS_LIST)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk());
@@ -135,7 +134,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testUpdatePartnersByIdSuccess(){
+    public void testUpdatePartnersByIdSuccess() {
         partners.setId(1);
         when(partnersService.findById(partners.getId())).thenReturn(partners);
         doNothing().when(partnersService).updatePartners(partners);
@@ -149,7 +148,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testUpdatePartnersNotFound(){
+    public void testUpdatePartnersNotFound() {
         mockMvc.perform(put(V1_PARTNERS_UPDATE)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(jsonRequest(Fixture.from(Partners.class).gimme(PARTNERS_UPDATE_REQUEST))))
@@ -161,7 +160,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testDeletePartnersOk(){
+    public void testDeletePartnersOk() {
         partners.setId(1);
         partners.setPartnersName("Facebook");
         partners.setProductName("facebook");
@@ -174,7 +173,7 @@ public class HomeControllerTest {
 
     @Test
     @SneakyThrows
-    public void testDeletePartnersNonExistent(){
+    public void testDeletePartnersNonExistent() {
         doThrow(NullPointerException.class).when(partnersService).delete(partners.getId());
         mockMvc.perform(MockMvcRequestBuilders
                 .delete(HomeController.V1_PARTNERS_DELETE + partners.getId())
@@ -185,7 +184,7 @@ public class HomeControllerTest {
     //--------------------------------- Object Json  -----------------------------------------------------------------//
 
     @SneakyThrows
-    public String jsonRequest(Object request){
+    public String jsonRequest(Object request) {
         return mapper.writeValueAsString(request);
     }
 }
